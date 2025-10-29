@@ -5,10 +5,40 @@ document.getElementById("simulador").addEventListener("submit", function (e) {
   const años = parseInt(document.getElementById("años").value);
 
   let total = 0;
+  const datos = [];
+  const etiquetas = [];
+
   for (let i = 0; i < años * 12; i++) {
     total = (total + monto) * (1 + interes / 12);
+    if ((i + 1) % 12 === 0) {
+      datos.push(total.toFixed(2));
+      etiquetas.push(`Año ${Math.floor((i + 1) / 12)}`);
+    }
   }
 
   document.getElementById("resultado").innerText =
     `En ${años} años ahorrarías aproximadamente $${total.toFixed(2)} MXN.`;
+
+  const ctx = document.getElementById("graficoAhorro").getContext("2d");
+  new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: etiquetas,
+      datasets: [{
+        label: "Ahorro acumulado (MXN)",
+        data: datos,
+        borderColor: "green",
+        backgroundColor: "rgba(0, 128, 0, 0.2)",
+        fill: true,
+        tension: 0.3
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: "top" },
+        title: { display: true, text: "Proyección de ahorro anual" }
+      }
+    }
+  });
 });
