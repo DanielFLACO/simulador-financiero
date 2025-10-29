@@ -1,9 +1,18 @@
 document.getElementById("simulador").addEventListener("submit", function (e) {
   e.preventDefault();
+
+  // Obtener valores del formulario
   const monto = parseFloat(document.getElementById("monto").value);
   const interes = parseFloat(document.getElementById("interes").value) / 100;
   const años = parseInt(document.getElementById("años").value);
 
+  // Validación básica
+  if (isNaN(monto) || isNaN(interes) || isNaN(años)) {
+    alert("Por favor ingresa valores válidos.");
+    return;
+  }
+
+  // Cálculo del ahorro con interés compuesto
   let total = 0;
   const datos = [];
   const etiquetas = [];
@@ -16,19 +25,28 @@ document.getElementById("simulador").addEventListener("submit", function (e) {
     }
   }
 
+  // Mostrar resultado textual
   document.getElementById("resultado").innerText =
     `En ${años} años ahorrarías aproximadamente $${total.toFixed(2)} MXN.`;
 
+  // Mostrar gráfico con Chart.js
   const ctx = document.getElementById("graficoAhorro").getContext("2d");
-  new Chart(ctx, {
+
+  // Destruir gráfico anterior si existe
+  if (window.miGrafico) {
+    window.miGrafico.destroy();
+  }
+
+  // Crear nuevo gráfico
+  window.miGrafico = new Chart(ctx, {
     type: "line",
     data: {
       labels: etiquetas,
       datasets: [{
         label: "Ahorro acumulado (MXN)",
         data: datos,
-        borderColor: "green",
-        backgroundColor: "rgba(0, 128, 0, 0.2)",
+        borderColor: "#28a745",
+        backgroundColor: "rgba(40, 167, 69, 0.2)",
         fill: true,
         tension: 0.3
       }]
@@ -37,7 +55,15 @@ document.getElementById("simulador").addEventListener("submit", function (e) {
       responsive: true,
       plugins: {
         legend: { position: "top" },
-        title: { display: true, text: "Proyección de ahorro anual" }
+        title: {
+          display: true,
+          text: "Proyección de ahorro anual"
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
       }
     }
   });
