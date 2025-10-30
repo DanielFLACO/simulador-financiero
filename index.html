@@ -7,18 +7,29 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <h1>💰 Simulador de Ahorro con Interés Compuesto</h1>
-  <form id="simulador">
-    <label>Monto mensual (MXN): <input type="number" id="monto" required /></label><br />
-    <label>Interés anual (%): <input type="number" id="interes" required /></label><br />
-    <label>Años: <input type="number" id="años" required /></label><br />
-    <button type="submit">Calcular</button>
-  </form>
-  <div id="resultado"></div>
-  <canvas id="graficoAhorro" width="400" height="200"></canvas>
+  <h1> Simulador de Ahorro con Interés Compuesto</h1>
 
-  <!-- Scripts en orden correcto -->
+  <button id="toggleTema"> Cambiar tema</button>
+
+  <!-- Área que se exportará -->
+  <div id="exportArea">
+    <form id="simulador">
+      <label>Monto mensual (MXN): <input type="number" id="monto" required /></label><br />
+      <label>Interés anual (%): <input type="number" id="interes" required /></label><br />
+      <label>Años: <input type="number" id="años" required /></label><br />
+      <button type="submit">Calcular</button>
+      <button type="button" id="exportarPDF"> Exportar como PDF</button>
+      <button type="button" id="exportarCSV"> Exportar como CSV</button>
+    </form>
+
+    <div id="resultado"></div>
+    <canvas id="graficoAhorro" width="400" height="200"></canvas>
+  </div>
+
+  <!-- Librerías necesarias -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="script.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="scripts.js"></script>
 </body>
 </html>
